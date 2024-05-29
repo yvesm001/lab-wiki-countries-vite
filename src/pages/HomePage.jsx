@@ -11,7 +11,9 @@ function HomePage() {
         "https://ih-countries-api.herokuapp.com/countries"
       );
 
-      setCountries(response.data);
+      setCountries(
+        response.data.sort((a, b) => a.name.common.localeCompare(b.name.common))
+      );
     } catch (error) {
       console.log(error);
     }
@@ -22,23 +24,33 @@ function HomePage() {
   }, []);
 
   return (
-    <div>
-      <h1>WikiCountries: Your Guide to the World</h1>
-      { countries ? (
+    <div
+      className="container"
+      style={{ maxHeight: "90vh", overflow: "scroll" }}
+    >
+      <h1 style={{ fontSize: "24px" }}>
+        WikiCountries: Your Guide to the World
+      </h1>
+
+      {countries ? (
         countries.map((country) => (
-            <div key={country._id}>
-                <Link to={`/${country.alpha3Code}`}>
-                <img src= {`https://flagpedia.net/data/flags/icon/72x54/${country.alpha2Code.toLowerCase()}.png`} />
-                <h3>{country.name.official}</h3>
-                </Link>
-            </div>
+          <div className="list-group" key={country._id}>
+            <Link
+              className="list-group-item list-group-item-action"
+              to={`/${country.alpha3Code}`}
+            >
+              <img
+                src={`https://flagpedia.net/data/flags/icon/72x54/${country.alpha2Code.toLowerCase()}.png`}
+                alt="country flag"
+              />
+              <h3>{country.name.common}</h3>
+            </Link>
+          </div>
         ))
       ) : (
-        <p>No countries yet</p>
-      )
-      }
+        <p>🕐Loading...</p>
+      )}
     </div>
   );
 }
 export default HomePage;
-

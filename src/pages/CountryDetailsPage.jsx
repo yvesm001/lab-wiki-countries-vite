@@ -52,11 +52,15 @@ function CountryDetails() {
                   <td>Borders</td>
                   <td>
                     <ul>
-                      {country.borders.map((border) => (
-                        <li key={border}>
-                          <Link to={`/${border}`}>{border}</Link>
-                        </li>
-                      ))}
+                      {country.borders.length ? (
+                        country.borders.map((border) => (
+                          <li key={border}>
+                            <Link to={`/${border}`}>{border}</Link>
+                          </li>
+                        ))
+                      ) : (
+                        <p>This country has no borders</p>
+                      )}
                     </ul>
                   </td>
                 </tr>
@@ -65,7 +69,7 @@ function CountryDetails() {
           </div>
         </>
       ) : (
-        <p>No country yet</p>
+        <p>🕐Loading</p>
       )}
     </div>
   );
